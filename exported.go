@@ -1,17 +1,15 @@
 package bot
 
-import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-)
-
-type Chat struct {
-	tgbotapi.Chat
-}
-type Messager struct {
-	tgbotapi.MessageConfig
+func DebugMode(debug bool) OptionFunc {
+	return func(bot *Bot) error {
+		bot.tg.Debug = debug
+		return nil
+	}
 }
 
-func NewMessage(chatID int64, msg string) Messager {
-	messager := tgbotapi.NewMessage(chatID, msg)
-	return Messager{messager}
+func WithChatIDs(chatIDs ...int64) OptionFunc {
+	return func(bot *Bot) error {
+		bot.chatIDs = append(bot.chatIDs, chatIDs...)
+		return nil
+	}
 }
